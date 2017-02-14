@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"encoding/json"
-	"github.com/leanote/leanote/app/info"
-	"github.com/leanote/leanote/app/lea/i18n"
+	"github.com/xiaozi0lei/YingNote/app/info"
+	"github.com/xiaozi0lei/YingNote/app/lea/i18n"
 	"github.com/revel/revel"
 	"gopkg.in/mgo.v2/bson"
 	//	. "github.com/leanote/leanote/app/lea"

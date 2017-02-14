@@ -3,8 +3,8 @@ package api
 import (
 	"github.com/revel/revel"
 	//	"encoding/json"
-	"github.com/leanote/leanote/app/info"
-	. "github.com/leanote/leanote/app/lea"
+	"github.com/xiaozi0lei/YingNote/app/info"
+	. "github.com/xiaozi0lei/YingNote/app/lea"
 	"gopkg.in/mgo.v2/bson"
 	"time"
 	//	"github.com/leanote/leanote/app/types"

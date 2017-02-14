@@ -7,7 +7,7 @@ import (
 	"os"
 	"path"
 	"strings"
-	"github.com/leanote/leanote/app/lea"
+	"github.com/xiaozi0lei/YingNote/app/lea"
 )
 
 // main functions shows how to TarGz a directory/file and

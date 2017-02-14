@@ -1,7 +1,7 @@
 package blog
 
 import (
-	. "github.com/leanote/leanote/app/lea"
+	. "github.com/xiaozi0lei/YingNote/app/lea"
 	"github.com/revel/revel"
 	"html/template"
 	"io/ioutil"

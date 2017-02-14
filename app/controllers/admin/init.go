@@ -1,8 +1,8 @@
 package admin
 
 import (
-	"github.com/leanote/leanote/app/info"
-	"github.com/leanote/leanote/app/service"
+	"github.com/xiaozi0lei/YingNote/app/info"
+	"github.com/xiaozi0lei/YingNote/app/service"
 	//	. "github.com/leanote/leanote/app/lea"
 	"github.com/revel/revel"
 	//	"strings"

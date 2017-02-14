@@ -1,9 +1,9 @@
 package service
 
 import (
-	"github.com/leanote/leanote/app/info"
+	"github.com/xiaozi0lei/YingNote/app/info"
+	"github.com/xiaozi0lei/YingNote/app/db"
 	//	. "github.com/leanote/leanote/app/lea"
-	"github.com/leanote/leanote/app/db"
 	"gopkg.in/mgo.v2/bson"
 	"time"
 )

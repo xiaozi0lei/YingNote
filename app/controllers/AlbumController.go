@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/revel/revel"
 	//	"encoding/json"
-	"github.com/leanote/leanote/app/info"
+	"github.com/xiaozi0lei/YingNote/app/info"
 	"gopkg.in/mgo.v2/bson"
 	//	. "github.com/leanote/leanote/app/lea"
 	//	"io/ioutil"

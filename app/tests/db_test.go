@@ -1,7 +1,7 @@
 package tests
 
 import (
-	"github.com/leanote/leanote/app/db"
+	"github.com/xiaozi0lei/YingNote/app/db"
 	"testing"
 	//	. "github.com/leanote/leanote/app/lea"
 	//	"github.com/leanote/leanote/app/service"

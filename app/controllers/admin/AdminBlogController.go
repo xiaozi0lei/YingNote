@@ -3,7 +3,7 @@ package admin
 import (
 	"github.com/revel/revel"
 	//	. "github.com/leanote/leanote/app/lea"
-	"github.com/leanote/leanote/app/info"
+	"github.com/xiaozi0lei/YingNote/app/info"
 )
 
 // admin 首页
