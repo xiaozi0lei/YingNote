@@ -28,7 +28,6 @@
   content: "\e603";
 }
 #logo:before {
-  content: "\e901";
   line-height: 1;
   margin-top: 5px;
   display: inline-block;
@@ -37,9 +36,15 @@
 #logo.icon-only:before {
   content: "\e902";
 }
-.lang-zh-cn #logo:before {
-  content: "\e900";
+/*
+:before 意思是在 id=logo 的元素前面添加 content 为 logo 的图片 icon
+用来控制 logo 图片的展示，从 public/fonts/leanote-font3/leanote.* 中获取对应的 svg ICON 图片
+.lang-zh-cn {
+   #logo:before {
+    content: "\e900";
+   } 
 }
+*/
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -71,16 +76,16 @@
 }
 /*"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue", Helvetica, "Microsoft Yahei", Verdana, Simsun, "Segoe UI", "Segoe UI Web Regular", "Segoe UI Symbol",  "BBAlpha Sans", "S60 Sans", Arial, sans-serif;*/
 ::selection {
-  background: #000000;
-  color: #ffffff;
+  background: #000;
+  color: #fff;
 }
 ::-moz-selection {
-  background: #000000;
-  color: #ffffff;
+  background: #000;
+  color: #fff;
 }
 ::-webkit-selection {
-  background: #000000;
-  color: #ffffff;
+  background: #000;
+  color: #fff;
 }
 *,
 body {

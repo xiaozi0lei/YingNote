@@ -7,11 +7,11 @@
 # Home is My Blog
 Get 	/											Index.Default
 GET     /note   	                                Note.Index
-# leanote home
+# YingNote home
 GET     /index   	                                Index.Index
 
 GET     /login                                     	Auth.Login
-POST     /doLogin                                   Auth.DoLogin
+POST    /doLogin                                    Auth.DoLogin
 GET     /logout                                     Auth.Logout
 Get     /demo                                   	Auth.Demo
 

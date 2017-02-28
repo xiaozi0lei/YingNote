@@ -112,7 +112,6 @@ func (c Note) Index(noteId, online string) revel.Result {
 	}
 
 	// 当然, 还需要得到第一个notes的content
-	//...
 	c.RenderArgs["isAdmin"] = configService.GetAdminUsername() == userInfo.Username
 
 	c.RenderArgs["userInfo"] = userInfo

@@ -35,17 +35,25 @@
 }
 
 #logo:before {
-    content: "\e901";
+    // 在 id 为 logo 的元素前添加 logo 图片
+    // content: "\e901";
     line-height: 1;
     margin-top: 5px;
     display: inline-block;
     vertical-align: top;
 }
+
+/*
+同下
 #logo.icon-only:before {
     content: "\e902";
 }
+
+:before 意思是在 id=logo 的元素前面添加 content 为 logo 的图片 icon
+用来控制 logo 图片的展示，从 public/fonts/leanote-font3/leanote.* 中获取对应的 svg ICON 图片
 .lang-zh-cn {
    #logo:before {
     content: "\e900";
    } 
 }
+*/

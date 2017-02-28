@@ -1,14 +1,14 @@
 ::selection {
-  background: #000000;
-  color: #ffffff;
+  background: #000;
+  color: #fff;
 }
 ::-moz-selection {
-  background: #000000;
-  color: #ffffff;
+  background: #000;
+  color: #fff;
 }
 ::-webkit-selection {
-  background: #000000;
-  color: #ffffff;
+  background: #000;
+  color: #fff;
 }
 /*scroll*/
 /*
@@ -483,7 +483,7 @@ background-position:-1px -670px
   line-height: 30px;
 }
 .dropdown-menu li > a {
-  color: #000000;
+  color: #000;
   display: block;
   padding-right: 20px;
 }
@@ -573,18 +573,25 @@ a.raw:hover {
   content: "\e603";
 }
 #logo:before {
-  content: "\e901";
   line-height: 1;
   margin-top: 5px;
   display: inline-block;
   vertical-align: top;
 }
+/*
+同下
 #logo.icon-only:before {
-  content: "\e902";
+    content: "\e902";
 }
-.lang-zh-cn #logo:before {
-  content: "\e900";
+
+:before 意思是在 id=logo 的元素前面添加 content 为 logo 的图片 icon
+用来控制 logo 图片的展示，从 public/fonts/leanote-font3/leanote.* 中获取对应的 svg ICON 图片
+.lang-zh-cn {
+   #logo:before {
+    content: "\e900";
+   } 
 }
+*/
 /**
  * 头部
  */
@@ -622,17 +629,17 @@ a.raw:hover {
   margin-top: 10px;
 }
 .new-note {
-  background-color: #eeeeee;
+  background-color: #eee;
   border-radius: 3px;
   padding: 3px 5px;
   border: 1px solid transparent;
 }
 .new-note,
 .new-note a {
-  color: #000000;
+  color: #000;
 }
 .new-note:hover {
-  background: #e0e0e0;
+  background: #E0E0E0;
   border-color: transparent;
 }
 .new-note:hover,
@@ -684,18 +691,18 @@ a.raw:hover {
   left: 30px !important;
 }
 a {
-  color: #000000;
+  color: #000;
   cursor: pointer;
 }
 a:hover {
   text-decoration: none !important;
-  color: #000000;
+  color: #000;
 }
 #header {
   height: 60px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #ebeff2;
-  color: #000000;
+  background-color: #fff;
+  border-bottom: 1px solid #EBEFF2;
+  color: #000;
   /* for app */
   webkit-user-select: none;
   /* 还不知 */
@@ -703,11 +710,11 @@ a:hover {
   /* -webkit-app-region: no-drag; */
 }
 #header a {
-  color: #000000;
+  color: #000;
 }
 #header li,
 #header li a {
-  color: #000000;
+  color: #000;
 }
 #logo {
   line-height: 50px;
@@ -754,10 +761,10 @@ a:hover {
 }
 #searchNote input {
   background-size: 18px 13px;
-  border-color: #ebeff2;
-  border: 1px solid #ebeff2;
-  color: #000000;
-  background-color: #ffffff;
+  border-color: #EBEFF2;
+  border: 1px solid #EBEFF2;
+  color: #000;
+  background-color: #fff;
   padding-left: 14px;
   border-radius: 5px;
   height: 30px;
@@ -790,15 +797,15 @@ a:hover {
   color: #999999;
 }
 .dropdown-menu li > a {
-  color: #000000;
+  color: #000;
 }
 .dropdown-menu li:hover,
 .dropdown-menu li:focus {
-  background-color: #ebeff2;
+  background-color: #EBEFF2;
 }
 .dropdown-menu li > a:hover,
 .dropdown-menu li > a:focus {
-  background-color: #ebeff2;
+  background-color: #EBEFF2;
 }
 #loading {
   display: inline-block;
@@ -926,7 +933,7 @@ a:hover {
   opacity: 0.8;
 }
 .leanoteNav.unfolder h1 {
-  border-bottom: 1px dashed #ebeff2;
+  border-bottom: 1px dashed #EBEFF2;
 }
 .leanoteNav.unfolder span {
   display: inline;
@@ -1024,7 +1031,7 @@ a:hover {
 .mce-menu-item:hover,
 .mce-menu-item.mce-selected,
 .mce-menu-item:focus {
-  background-color: #ebeff2;
+  background-color: #EBEFF2;
 }
 .mce-menu-item:hover span,
 .mce-menu-item.mce-selected span,
@@ -1032,7 +1039,7 @@ a:hover {
   color: #000 !important;
 }
 .mce-menu-item-normal.mce-active {
-  background-color: #ebeff2;
+  background-color: #EBEFF2;
 }
 .tool-split {
   display: inline-block;
@@ -1439,7 +1446,7 @@ textarea#wmd-input {
   padding-top: 5px;
 }
 #wmd-input.ace_editor {
-  color: #000000;
+  color: #000;
 }
 #wmd-input.ace-tm {
   background-color: #ffffff;
@@ -1457,7 +1464,7 @@ textarea#wmd-input {
   background: none;
 }
 #wmd-input.ace-tm .ace_markup.ace_heading {
-  color: #000000;
+  color: #000;
   font-weight: bold;
 }
 #wmd-input.ace-tm .ace_markup.ace_heading.ace_1,
@@ -1468,7 +1475,7 @@ textarea#wmd-input {
   color: #1d3e81;
 }
 #wmd-input.ace-tm .ace_markup.ace_list {
-  color: #000000;
+  color: #000;
 }
 #wmd-input.ace-tm .ace_constant.ace_language {
   color: #1d3e81;
@@ -1501,15 +1508,15 @@ textarea#wmd-input {
   background: inherit;
 }
 #wmd-input.ace-tm .ace_strong {
-  color: #000000;
+  color: #000;
   font-weight: bold;
 }
 #wmd-input.ace-tm .ace_emphasis {
-  color: #000000;
+  color: #000;
   font-style: italic;
 }
 #wmd-input.ace-tm .ace_blockquote {
-  color: #000000;
+  color: #000;
 }
 #wmd-input.ace-tm .ace_code {
   color: #1a2026;
@@ -1518,7 +1525,7 @@ textarea#wmd-input {
   color: #1a2026;
 }
 #wmd-input.ace-tm .ace_link {
-  color: #000000;
+  color: #000;
   background-color: transparent;
   text-decoration: underline;
 }
@@ -1560,14 +1567,14 @@ textarea#wmd-input {
   bottom: 0;
   top: 0;
   right: 0;
-  background-color: #ffffff;
+  background-color: #fff;
   overflow-y: auto;
   overflow-x: auto;
   z-index: 2;
 }
 #addNotebookPlus {
   padding-right: 10px;
-  color: #666666;
+  color: #666;
 }
 #addNotebookPlus .fa {
   font-size: 16px;
@@ -1579,7 +1586,7 @@ textarea#wmd-input {
   padding-left: 3px;
   box-shadow: none;
   background: none;
-  color: #000000;
+  color: #000;
 }
 #notebookList input:focus,
 #notebookListForSearch input:focus {
@@ -1589,17 +1596,17 @@ textarea#wmd-input {
   z-index: 1;
   overflow-y: visible;
   overflow-x: visible;
-  background-color: #eeeeee;
+  background-color: #eee;
 }
 #notebookMin div.minContainer {
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid #ccc;
   padding: 5px;
   position: relative;
   cursor: pointer;
 }
 #notebookMin div.minContainer i {
   font-size: 20px;
-  color: #000000;
+  color: #000;
 }
 #notebookMin div.minContainer:hover i {
   color: #0fb264;
@@ -1655,7 +1662,7 @@ textarea#wmd-input {
 .folderHeader span {
   display: inline-block;
   line-height: 35px;
-  color: #000000;
+  color: #000;
   font-size: 16px;
 }
 .folderHeader .fa-left,
@@ -1666,7 +1673,7 @@ textarea#wmd-input {
   width: 35px;
   border-right: 1px solid rgba(0, 0, 0, 0.05);
   text-align: center;
-  color: #000000;
+  color: #000;
 }
 .friend-header {
   position: relative;
@@ -1686,8 +1693,8 @@ textarea#wmd-input {
   margin-right: 5px;
   margin-top: 3px;
   border-radius: 3px;
-  border: 1px solid #eeeeee;
-  background-color: #ffffff;
+  border: 1px solid #eee;
+  background-color: #fff;
 }
 .each-user div {
   cursor: pointer;
@@ -1696,7 +1703,7 @@ textarea#wmd-input {
 }
 .each-user div span {
   line-height: 35px;
-  color: #000000;
+  color: #000;
   padding-left: 3px;
   font-size: 14px;
   display: block;
@@ -1749,7 +1756,7 @@ textarea#wmd-input {
   line-height: normal;
 }
 #notebookList {
-  border-top: #eeeeee;
+  border-top: #eee;
 }
 .ztree {
   padding: 0px;
@@ -1784,7 +1791,7 @@ textarea#wmd-input {
   list-style: none;
   margin: 0;
   padding: 0;
-  background-color: #ffffff;
+  background-color: #fff;
 }
 .folderBody li {
   line-height: 30px;
@@ -1801,9 +1808,9 @@ textarea#wmd-input {
   right: 3px;
   top: 7px;
   font-weight: normal;
-  background-color: #ffffff;
-  color: #000000;
-  border: 1px solid #ebeff2;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #EBEFF2;
 }
 /**
  * 笔记列表
@@ -1820,8 +1827,8 @@ textarea#wmd-input {
   bottom: 0;
   top: 0;
   width: 250px;
-  border-right: 1px solid #ebeff2;
-  border-left: 1px solid #ebeff2;
+  border-right: 1px solid #EBEFF2;
+  border-left: 1px solid #EBEFF2;
   z-index: 333;
 }
 #note {
@@ -1833,11 +1840,11 @@ textarea#wmd-input {
   padding-left: 5px;
   overflow-y: hidden;
   overflow-x: auto;
-  background-color: #ffffff;
+  background-color: #fff;
 }
 #notesAndSort {
-  background-color: #ffffff;
-  border-bottom: 1px solid #ebeff2;
+  background-color: #fff;
+  border-bottom: 1px solid #EBEFF2;
   height: 36px;
 }
 #sortType {
@@ -1879,7 +1886,7 @@ textarea#wmd-input {
   height: 110px;
   overflow: hidden;
   cursor: pointer;
-  border: 1px solid #ebeff2;
+  border: 1px solid #EBEFF2;
   border-radius: 3px;
   margin-top: 5px;
   background-color: #fff;
@@ -1924,8 +1931,8 @@ textarea#wmd-input {
   line-height: 20px;
   overflow: hidden;
   margin-bottom: 0px;
-  color: #000000;
-  border-bottom: dashed 1px #ebeff2;
+  color: #000;
+  border-bottom: dashed 1px #EBEFF2;
 }
 #noteItemList .item-desc {
   position: absolute;
@@ -2276,7 +2283,7 @@ textarea#wmd-input {
   padding: 0px 3px;
   width: 100%;
   border: none;
-  background-color: #ffffff;
+  background-color: #fff;
 }
 #noteTitle:focus {
   outline: none !important;
@@ -2306,7 +2313,7 @@ textarea#wmd-input {
 #notebookNavForNewNote li,
 #notebookNavForNewSharedNote > li {
   padding-left: 0;
-  border-bottom: 1px solid #ebeff2;
+  border-bottom: 1px solid #EBEFF2;
 }
 #notebookNavForNewNote > li:hover,
 #notebookNavForNewNote > li:focus,
@@ -2319,13 +2326,13 @@ textarea#wmd-input {
   width: 95px;
   overflow: hidden;
   white-space: nowrap;
-  border-right: 1px dashed #ebeff2;
+  border-right: 1px dashed #EBEFF2;
 }
 .new-note-left:hover {
-  background-color: #ebeff2;
+  background-color: #EBEFF2;
 }
 .new-note-right:hover {
-  background-color: #ebeff2;
+  background-color: #EBEFF2;
 }
 #historyList table {
   width: 100%;
@@ -2356,7 +2363,7 @@ textarea#wmd-input {
 #editorMask a {
   display: inline-block;
   border-radius: 3px;
-  border: 1px solid #ebeff2;
+  border: 1px solid #EBEFF2;
   padding: 10px;
 }
 #editorMask a:hover {
@@ -2483,7 +2490,7 @@ textarea#wmd-input {
   display: none;
   padding: 0;
   border: none;
-  background-color: #ffffff;
+  background-color: #fff;
 }
 #addTagInput:focus {
   outline: none;
@@ -2655,12 +2662,12 @@ h3 {
   -webkit-overflow-scrolling: touch !important;
 }
 .folderBody a.active {
-  background-color: #ffffff;
+  background-color: #fff;
   color: #0fb264;
 }
 .folderBody a:hover,
 .folderBody .contextmenu-hover {
-  background-color: #ebeff2 !important;
+  background-color: #EBEFF2 !important;
 }
 @media screen and (max-width: 700px) {
   #toggleEditorMode,

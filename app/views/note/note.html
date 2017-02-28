@@ -6,9 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <meta name="apple-touch-fullscreen" content="yes">
 <meta name=”apple-mobile-web-app-capable” content=”yes” />
-<meta name="keywords" content="leanote,leanote.com,蚂蚁笔记">
-<meta name="description" content="Leanote, 蚂蚁笔记, {{msg $ "moto"}}">
-<title>Leanote, {{msg $ "moto"}}</title>
+<meta name="keywords" content="yingnote,yingnote.com,WanYing 笔记">
+<meta name="description" content="YingNote, WanYing 笔记, {{msg $ "moto"}}">
+<title>YingNote, {{msg $ "moto"}}</title>
 <link href="/css/bootstrap-min.css" rel="stylesheet" />
 <!-- 先加载, 没有样式, 宽度不定 -->
 <link rel="stylesheet" href="/css/tinymce/skin.min.css" rel="stylesheet"/>
@@ -30,9 +30,9 @@ document.write(files);
 </script>
 <!-- For Develop writting mod -->
 <script>
-function log(o) {
-	
-}
+	function log(o) {
+		console.log(o);
+	}
 </script>
 </head>
 <body class="leanote-plugin lang-{{$.locale}}">
@@ -41,7 +41,7 @@ function log(o) {
 			<!-- 头部 -->
 			<!-- <div id="headerContainer"> -->
 			<div id="header">
-				<a id="logo" href="/" title="Leanote {{msg . "home"}}" class="pull-left"></a>
+				<a id="logo" href="/" title="YingNote {{msg . "home"}}" class="pull-left">YingNote</a>
 				<div id="switcher" class="pull-left">
 					 <i class="fa fa-dedent" id="leftSwitcher" title="{{msg . "leftHidden"}}"></i>
 					 <span id="leftSwitcher2" class="fa fa-indent" title="{{msg . "leftShow"}}"></span>
@@ -178,11 +178,11 @@ function log(o) {
 						</ul>
 					</div>
 				</div>
-				<div class="pull-right top-nav writting-hide lea-blog">
+				<!--<div class="pull-right top-nav writting-hide lea-blog">
 					<a target="_blank" href="http://lea.leanote.com"> 
 						{{msg . "Explore"}}
 					</a>
-				</div>
+				</div>-->
 				
 				<div class="pull-right top-nav writting-hide" id="myBlog">
 					<a target="_blank" href="{{$.blogUrl}}/{{.userInfo.Username}}"> 

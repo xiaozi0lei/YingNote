@@ -20,10 +20,10 @@ func (c Index) Default() revel.Result {
 	return c.Index()
 }
 
-// leanote展示页, 没有登录的, 或已登录明确要进该页的
+// YingNote 展示页, 没有登录的, 或已登录明确要进该页的
 func (c Index) Index() revel.Result {
 	c.SetUserInfo()
-	c.RenderArgs["title"] = "leanote"
+	c.RenderArgs["title"] = "YingNote"
 	c.RenderArgs["openRegister"] = configService.GlobalStringConfigs["openRegister"]
 	c.SetLocale()
 
