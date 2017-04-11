@@ -3,7 +3,7 @@ package service
 import (
 	"github.com/xiaozi0lei/YingNote/app/db"
 	"github.com/xiaozi0lei/YingNote/app/info"
- . "github.com/xiaozi0lei/YingNote/app/lea"
+	. "github.com/xiaozi0lei/YingNote/app/lea"
 	"gopkg.in/mgo.v2/bson"
 	"time"
 )

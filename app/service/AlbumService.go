@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/xiaozi0lei/YingNote/app/info"
 	"github.com/xiaozi0lei/YingNote/app/db"
+	"github.com/xiaozi0lei/YingNote/app/info"
 	//	. "github.com/leanote/leanote/app/lea"
 	"gopkg.in/mgo.v2/bson"
 	"time"
@@ -28,7 +28,7 @@ func (this *AlbumService) GetAlbums(userId string) []info.Album {
 }
 
 // delete album
-// presupposition: has no images under this ablum
+// presupposition: has no images under c ablum
 func (this *AlbumService) DeleteAlbum(userId, albumId string) (bool, string) {
 	if db.Count(db.Files, bson.M{"AlbumId": bson.ObjectIdHex(albumId),
 		"UserId": bson.ObjectIdHex(userId),

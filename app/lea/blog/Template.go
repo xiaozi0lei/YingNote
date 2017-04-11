@@ -1,8 +1,8 @@
 package blog
 
 import (
-	. "github.com/xiaozi0lei/YingNote/app/lea"
 	"github.com/revel/revel"
+	. "github.com/xiaozi0lei/YingNote/app/lea"
 	"html/template"
 	"io/ioutil"
 	//	"os"
@@ -16,9 +16,8 @@ import (
 )
 
 //--------------------
-// leanote 自定义主题
+// YingNote 自定义主题
 // 不使用revel的模板机制
-// By life
 //--------------------
 
 var ts = []string{"header.html", "footer.html", "highlight.html", "comment.html", "view.html", "404.html"}
@@ -39,7 +38,7 @@ var CloneTemplate *template.Template
 type RenderTemplateResult struct {
 	Template    *template.Template
 	PathContent map[string]string
-	RenderArgs  map[string]interface{}
+	ViewArgs    map[string]interface{}
 
 	IsPreview  bool // 是否是预览
 	CurBlogTpl *BlogTpl
@@ -62,7 +61,7 @@ func parseTemplateError(err error) (templateName string, line int, description s
 	return templateName, line, description
 }
 func (r *RenderTemplateResult) render(req *revel.Request, resp *revel.Response, wr io.Writer) {
-	err := r.Template.Execute(wr, r.RenderArgs)
+	err := r.Template.Execute(wr, r.ViewArgs)
 	if err == nil {
 		return
 	}
@@ -91,7 +90,7 @@ func (r *RenderTemplateResult) render(req *revel.Request, resp *revel.Response, 
 	// 这里, 错误!!
 	// 这里应该导向到本主题的错误页面
 	resp.Status = 500
-	ErrorResult{r.RenderArgs, compileError, r.IsPreview, r.CurBlogTpl}.Apply(req, resp)
+	ErrorResult{r.ViewArgs, compileError, r.IsPreview, r.CurBlogTpl}.Apply(req, resp)
 }
 
 func (r *RenderTemplateResult) Apply(req *revel.Request, resp *revel.Response) {
@@ -162,7 +161,7 @@ func RenderTemplate(name string, args map[string]interface{}, basePath string, i
 		r = &RenderTemplateResult{
 			Template:    t,
 			PathContent: BlogTplObject.PathContent, // 为了显示错误
-			RenderArgs:  args,                      // 把args给它
+			ViewArgs:    args,                      // 把args给它
 		}
 	} else {
 		// 复制一份
@@ -202,7 +201,7 @@ func RenderTemplate(name string, args map[string]interface{}, basePath string, i
 		r = &RenderTemplateResult{
 			Template:    t,
 			PathContent: newBlogTplObject.PathContent, // 为了显示错误
-			RenderArgs:  args,
+			ViewArgs:    args,
 			CurBlogTpl:  newBlogTplObject,
 			IsPreview:   isPreview,
 		}
@@ -215,7 +214,7 @@ func RenderTemplate(name string, args map[string]interface{}, basePath string, i
 //
 
 type ErrorResult struct {
-	RenderArgs map[string]interface{}
+	ViewArgs   map[string]interface{}
 	Error      error
 	IsPreview  bool
 	CurBlogTpl *BlogTpl
@@ -280,18 +279,18 @@ func (r ErrorResult) Apply(req *revel.Request, resp *revel.Response) {
 		panic("no error provided")
 	}
 
-	if r.RenderArgs == nil {
-		r.RenderArgs = make(map[string]interface{})
+	if r.ViewArgs == nil {
+		r.ViewArgs = make(map[string]interface{})
 	}
-	r.RenderArgs["Error"] = revelError
-	r.RenderArgs["Router"] = revel.MainRouter
+	r.ViewArgs["Error"] = revelError
+	r.ViewArgs["Router"] = revel.MainRouter
 
 	// 不是preview就不要显示错误了
 	if r.IsPreview {
 		var b bytes.Buffer
 		out := io.Writer(resp.Out)
 		//	out = ioutil.Discard
-		err = tmpl.Execute(&b, r.RenderArgs)
+		err = tmpl.Execute(&b, r.ViewArgs)
 		resp.WriteHeader(http.StatusOK, "text/html; charset=utf-8")
 		b.WriteTo(out)
 	}

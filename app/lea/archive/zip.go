@@ -3,11 +3,11 @@ package archive
 import (
 	"archive/zip"
 	"fmt"
+	"github.com/xiaozi0lei/YingNote/app/lea"
 	"io"
 	"os"
 	"path"
 	"strings"
-	"github.com/xiaozi0lei/YingNote/app/lea"
 )
 
 // main functions shows how to TarGz a directory/file and
@@ -153,7 +153,7 @@ func Unzip(srcFilePath string, destDirPath string) (ok bool, msg string) {
 
 		// 包含恶意目录
 		if strings.Contains(f.Name, "../") {
-			lea.LogW("恶意文件", f.Name);
+			lea.LogW("恶意文件", f.Name)
 			continue
 		}
 

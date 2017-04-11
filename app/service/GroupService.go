@@ -184,7 +184,7 @@ func (this *GroupService) IsExistsGroupUser(userId, groupId string) (ok bool) {
 func (this *GroupService) AddUser(ownUserId, groupId, userId string) (ok bool, msg string) {
 	// groupId是否是ownUserId的?
 	/*
-		if !this.IsExistsGroupUser(ownUserId, groupId) {
+		if !c.IsExistsGroupUser(ownUserId, groupId) {
 			return false, "forbiddenNotMyGroup"
 		}
 	*/
@@ -209,7 +209,7 @@ func (this *GroupService) AddUser(ownUserId, groupId, userId string) (ok bool, m
 func (this *GroupService) DeleteUser(ownUserId, groupId, userId string) (ok bool, msg string) {
 	// groupId是否是ownUserId的?
 	/*
-		if !this.IsExistsGroupUser(ownUserId, groupId) {
+		if !c.IsExistsGroupUser(ownUserId, groupId) {
 			return false, "forbiddenNotMyGroup"
 		}
 	*/

@@ -31,7 +31,7 @@ $(function() {
     
     $('#lang a').click(function() {
         var lang = $(this).data('lang');
-        setCookie('LEANOTE_LANG', lang);
+        setCookie('YINGNOTE_LANG', lang);
         location.reload();
     });
 });

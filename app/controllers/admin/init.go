@@ -31,7 +31,7 @@ var upgradeService *service.UpgradeService
 // 拦截器
 // 不需要拦截的url
 // Index 除了Note之外都不需要
-var commonUrl = map[string]map[string]bool{"Index": map[string]bool{"Index": true,
+var commonUrl = map[string]map[string]bool{"Index": {"Index": true,
 	"Login":              true,
 	"DoLogin":            true,
 	"Logout":             true,
@@ -43,18 +43,18 @@ var commonUrl = map[string]map[string]bool{"Index": map[string]bool{"Index": tru
 	"FindPasswordUpdate": true,
 	"Suggestion":         true,
 },
-	"Blog": map[string]bool{"Index": true,
+	"Blog": {"Index": true,
 		"View":       true,
 		"AboutMe":    true,
 		"SearchBlog": true,
 	},
 	// 用户的激活与修改邮箱都不需要登录, 通过链接地址
-	"User": map[string]bool{"UpdateEmail": true,
+	"User": {"UpdateEmail": true,
 		"ActiveEmail": true,
 	},
-	"Oauth":  map[string]bool{"GithubCallback": true},
-	"File":   map[string]bool{"OutputImage": true, "OutputFile": true},
-	"Attach": map[string]bool{"Download": true, "DownloadAll": true},
+	"Oauth":  {"GithubCallback": true},
+	"File":   {"OutputImage": true, "OutputFile": true},
+	"Attach": {"Download": true, "DownloadAll": true},
 }
 
 func needValidate(controller, method string) bool {
@@ -91,7 +91,7 @@ func AuthInterceptor(c *revel.Controller) revel.Result {
 	if c.Request.Header.Get("X-Requested-With") == "XMLHttpRequest" {
 		re := info.NewRe()
 		re.Msg = "NOTLOGIN"
-		return c.RenderJson(re)
+		return c.RenderJSON(re)
 	}
 
 	return c.Redirect("/login")

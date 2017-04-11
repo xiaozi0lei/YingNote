@@ -226,7 +226,7 @@ func (this *ShareService) ListShareNotesByNotebookId(notebookId, myUserId, share
 }
 
 // 得到note的perm信息
-//func (this *ShareService) getNotesPerm(noteIds []bson.ObjectId, myUserId, sharedUserId string) map[bson.ObjectId]int {
+//func (c *ShareService) getNotesPerm(noteIds []bson.ObjectId, myUserId, sharedUserId string) map[bson.ObjectId]int {
 //	shareNotes := []info.ShareNote{}
 //	db.ListByQ(db.ShareNotes,
 //		bson.M{
@@ -336,7 +336,7 @@ func (this *ShareService) AddShareNotebookToUserId(notebookId string, perm int, 
 // 添加一个note共享
 // [ok]
 /*
-func (this *ShareService) AddShareNote(shareNote info.ShareNote) bool {
+func (c *ShareService) AddShareNote(shareNote info.ShareNote) bool {
 	shareNote.CreatedTime = time.Now()
 	return db.Insert(db.ShareNotes, shareNote)
 }
@@ -468,12 +468,12 @@ func (this *ShareService) GetShareNoteContent(noteId, myUserId, sharedUserId str
 	noteContent = info.NoteContent{}
 	// 是否单独共享了该notebook
 	// 或者, 其notebook共享了我
-	//	Log(this.HasSharedNote(noteId, myUserId))
-	//	Log(this.HasSharedNotebook(noteId, myUserId, sharedUserId))
-	//	Log(this.HasReadPerm(sharedUserId, myUserId, noteId))
+	//	Log(c.HasSharedNote(noteId, myUserId))
+	//	Log(c.HasSharedNotebook(noteId, myUserId, sharedUserId))
+	//	Log(c.HasReadPerm(sharedUserId, myUserId, noteId))
 
 	if this.HasReadPerm(sharedUserId, myUserId, noteId) {
-		//	if this.HasSharedNote(noteId, myUserId) || this.HasSharedNotebook(noteId, myUserId, sharedUserId) {
+		//	if c.HasSharedNote(noteId, myUserId) || c.HasSharedNotebook(noteId, myUserId, sharedUserId) {
 		db.Get(db.NoteContents, noteId, &noteContent)
 	} else {
 	}

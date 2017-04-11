@@ -11,9 +11,9 @@ import (
 	"strings"
 )
 
-// init service, for share service bettween services
-// 初始化, 实例service
-// 为了共享service
+// init service, for share service between services
+// 初始化, 实例化 service
+// 为了共享 service
 
 var notebookService, NotebookS *NotebookService
 var noteService, NoteS *NoteService
@@ -86,7 +86,7 @@ func InitService() {
 //----------------
 // service 公用方法
 
-// 将name=val的val进行encoding
+// 将 name=val 的 val 进行 encoding
 func decodeValue(val string) string {
 	v, _ := url.ParseQuery("a=" + val)
 	return v.Get("a")

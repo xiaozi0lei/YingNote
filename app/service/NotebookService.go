@@ -219,7 +219,7 @@ func (this *NotebookService) IsMyNotebook(notebookId, userId string) bool {
 // 更新笔记本信息
 // 太广, 不用
 /*
-func (this *NotebookService) UpdateNotebook(notebook info.Notebook) bool {
+func (c *NotebookService) UpdateNotebook(notebook info.Notebook) bool {
 	return db.UpdateByIdAndUserId2(db.Notebooks, notebook.NotebookId, notebook.UserId, notebook)
 }
 */
@@ -372,7 +372,7 @@ func (this *NotebookService) ReCountAll() {
 		db.ListByQWithFields(db.Notebooks, bson.M{}, []string{"NotebookId"}, &notebooks)
 
 		for _, each := range notebooks {
-			this.ReCountNotebookNumberNotes(each.NotebookId.Hex())
+			c.ReCountNotebookNumberNotes(each.NotebookId.Hex())
 		}
 	*/
 }

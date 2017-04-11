@@ -2,10 +2,10 @@ package service
 
 import (
 	"fmt"
+	"github.com/revel/revel"
 	"github.com/xiaozi0lei/YingNote/app/db"
 	"github.com/xiaozi0lei/YingNote/app/info"
 	. "github.com/xiaozi0lei/YingNote/app/lea"
-	"github.com/revel/revel"
 	"gopkg.in/mgo.v2/bson"
 	"os"
 	"os/exec"
@@ -28,25 +28,25 @@ type ConfigService struct {
 	GlobalArrMapConfigs map[string][]map[string]string
 }
 
-// appStart时 将全局的配置从数据库中得到作为全局
-func (this *ConfigService) InitGlobalConfigs() bool {
-	this.GlobalAllConfigs = map[string]interface{}{}
-	this.GlobalStringConfigs = map[string]string{}
-	this.GlobalArrayConfigs = map[string][]string{}
-	this.GlobalMapConfigs = map[string]map[string]string{}
-	this.GlobalArrMapConfigs = map[string][]map[string]string{}
+// appStart 时 从数据库获取全局配置
+func (c *ConfigService) InitGlobalConfigs() bool {
+	c.GlobalAllConfigs = map[string]interface{}{}
+	c.GlobalStringConfigs = map[string]string{}
+	c.GlobalArrayConfigs = map[string][]string{}
+	c.GlobalMapConfigs = map[string]map[string]string{}
+	c.GlobalArrMapConfigs = map[string][]map[string]string{}
 
-	this.adminUsername, _ = revel.Config.String("adminUsername")
-	if this.adminUsername == "" {
-		this.adminUsername = "admin"
+	c.adminUsername, _ = revel.Config.String("adminUsername")
+	if c.adminUsername == "" {
+		c.adminUsername = "admin"
 	}
-	this.siteUrl, _ = revel.Config.String("site.url")
+	c.siteUrl, _ = revel.Config.String("site.url")
 
-	userInfo := userService.GetUserInfoByAny(this.adminUsername)
+	userInfo := userService.GetUserInfoByAny(c.adminUsername)
 	if userInfo.UserId == "" {
 		return false
 	}
-	this.adminUserId = userInfo.UserId.Hex()
+	c.adminUserId = userInfo.UserId.Hex()
 
 	configs := []info.Config{}
 	// db.ListByQ(db.Configs, bson.M{"UserId": userInfo.UserId}, &configs)
@@ -54,47 +54,47 @@ func (this *ConfigService) InitGlobalConfigs() bool {
 
 	for _, config := range configs {
 		if config.IsArr {
-			this.GlobalArrayConfigs[config.Key] = config.ValueArr
-			this.GlobalAllConfigs[config.Key] = config.ValueArr
+			c.GlobalArrayConfigs[config.Key] = config.ValueArr
+			c.GlobalAllConfigs[config.Key] = config.ValueArr
 		} else if config.IsMap {
-			this.GlobalMapConfigs[config.Key] = config.ValueMap
-			this.GlobalAllConfigs[config.Key] = config.ValueMap
+			c.GlobalMapConfigs[config.Key] = config.ValueMap
+			c.GlobalAllConfigs[config.Key] = config.ValueMap
 		} else if config.IsArrMap {
-			this.GlobalArrMapConfigs[config.Key] = config.ValueArrMap
-			this.GlobalAllConfigs[config.Key] = config.ValueArrMap
+			c.GlobalArrMapConfigs[config.Key] = config.ValueArrMap
+			c.GlobalAllConfigs[config.Key] = config.ValueArrMap
 		} else {
-			this.GlobalStringConfigs[config.Key] = config.ValueStr
-			this.GlobalAllConfigs[config.Key] = config.ValueStr
+			c.GlobalStringConfigs[config.Key] = config.ValueStr
+			c.GlobalAllConfigs[config.Key] = config.ValueStr
 		}
 	}
 
 	// site URL
-	if s, ok := this.GlobalStringConfigs["siteUrl"]; !ok || s != "" {
-		this.GlobalStringConfigs["siteUrl"] = this.siteUrl
+	if s, ok := c.GlobalStringConfigs["siteUrl"]; !ok || s != "" {
+		c.GlobalStringConfigs["siteUrl"] = c.siteUrl
 	}
 
 	return true
 }
 
-func (this *ConfigService) GetSiteUrl() string {
-	s := this.GetGlobalStringConfig("siteUrl")
+func (c *ConfigService) GetSiteUrl() string {
+	s := c.GetGlobalStringConfig("siteUrl")
 	if s != "" {
 		return s
 	}
 
-	return this.siteUrl
+	return c.siteUrl
 }
-func (this *ConfigService) GetAdminUsername() string {
-	return this.adminUsername
+func (c *ConfigService) GetAdminUsername() string {
+	return c.adminUsername
 }
-func (this *ConfigService) GetAdminUserId() string {
-	return this.adminUserId
+func (c *ConfigService) GetAdminUserId() string {
+	return c.adminUserId
 }
 
 // 通用方法
-func (this *ConfigService) updateGlobalConfig(userId, key string, value interface{}, isArr, isMap, isArrMap bool) bool {
+func (c *ConfigService) updateGlobalConfig(userId, key string, value interface{}, isArr, isMap, isArrMap bool) bool {
 	// 判断是否存在
-	if _, ok := this.GlobalAllConfigs[key]; !ok {
+	if _, ok := c.GlobalAllConfigs[key]; !ok {
 		// 需要添加
 		config := info.Config{ConfigId: bson.NewObjectId(),
 			UserId:      bson.ObjectIdHex(userId), // 没用
@@ -107,40 +107,40 @@ func (this *ConfigService) updateGlobalConfig(userId, key string, value interfac
 		if isArr {
 			v, _ := value.([]string)
 			config.ValueArr = v
-			this.GlobalArrayConfigs[key] = v
+			c.GlobalArrayConfigs[key] = v
 		} else if isMap {
 			v, _ := value.(map[string]string)
 			config.ValueMap = v
-			this.GlobalMapConfigs[key] = v
+			c.GlobalMapConfigs[key] = v
 		} else if isArrMap {
 			v, _ := value.([]map[string]string)
 			config.ValueArrMap = v
-			this.GlobalArrMapConfigs[key] = v
+			c.GlobalArrMapConfigs[key] = v
 		} else {
 			v, _ := value.(string)
 			config.ValueStr = v
-			this.GlobalStringConfigs[key] = v
+			c.GlobalStringConfigs[key] = v
 		}
 		return db.Insert(db.Configs, config)
 	} else {
 		i := bson.M{"UpdatedTime": time.Now()}
-		this.GlobalAllConfigs[key] = value
+		c.GlobalAllConfigs[key] = value
 		if isArr {
 			v, _ := value.([]string)
 			i["ValueArr"] = v
-			this.GlobalArrayConfigs[key] = v
+			c.GlobalArrayConfigs[key] = v
 		} else if isMap {
 			v, _ := value.(map[string]string)
 			i["ValueMap"] = v
-			this.GlobalMapConfigs[key] = v
+			c.GlobalMapConfigs[key] = v
 		} else if isArrMap {
 			v, _ := value.([]map[string]string)
 			i["ValueArrMap"] = v
-			this.GlobalArrMapConfigs[key] = v
+			c.GlobalArrMapConfigs[key] = v
 		} else {
 			v, _ := value.(string)
 			i["ValueStr"] = v
-			this.GlobalStringConfigs[key] = v
+			c.GlobalStringConfigs[key] = v
 		}
 		// return db.UpdateByQMap(db.Configs, bson.M{"UserId": bson.ObjectIdHex(userId), "Key": key}, i)
 		return db.UpdateByQMap(db.Configs, bson.M{"Key": key}, i)
@@ -148,52 +148,52 @@ func (this *ConfigService) updateGlobalConfig(userId, key string, value interfac
 }
 
 // 更新用户配置
-func (this *ConfigService) UpdateGlobalStringConfig(userId, key string, value string) bool {
-	return this.updateGlobalConfig(userId, key, value, false, false, false)
+func (c *ConfigService) UpdateGlobalStringConfig(userId, key string, value string) bool {
+	return c.updateGlobalConfig(userId, key, value, false, false, false)
 }
-func (this *ConfigService) UpdateGlobalArrayConfig(userId, key string, value []string) bool {
-	return this.updateGlobalConfig(userId, key, value, true, false, false)
+func (c *ConfigService) UpdateGlobalArrayConfig(userId, key string, value []string) bool {
+	return c.updateGlobalConfig(userId, key, value, true, false, false)
 }
-func (this *ConfigService) UpdateGlobalMapConfig(userId, key string, value map[string]string) bool {
-	return this.updateGlobalConfig(userId, key, value, false, true, false)
+func (c *ConfigService) UpdateGlobalMapConfig(userId, key string, value map[string]string) bool {
+	return c.updateGlobalConfig(userId, key, value, false, true, false)
 }
-func (this *ConfigService) UpdateGlobalArrMapConfig(userId, key string, value []map[string]string) bool {
-	return this.updateGlobalConfig(userId, key, value, false, false, true)
+func (c *ConfigService) UpdateGlobalArrMapConfig(userId, key string, value []map[string]string) bool {
+	return c.updateGlobalConfig(userId, key, value, false, false, true)
 }
 
 // 获取全局配置, 博客平台使用
-func (this *ConfigService) GetGlobalStringConfig(key string) string {
-	return this.GlobalStringConfigs[key]
+func (c *ConfigService) GetGlobalStringConfig(key string) string {
+	return c.GlobalStringConfigs[key]
 }
-func (this *ConfigService) GetGlobalArrayConfig(key string) []string {
-	arr := this.GlobalArrayConfigs[key]
+func (c *ConfigService) GetGlobalArrayConfig(key string) []string {
+	arr := c.GlobalArrayConfigs[key]
 	if arr == nil {
 		return []string{}
 	}
 	return arr
 }
-func (this *ConfigService) GetGlobalMapConfig(key string) map[string]string {
-	m := this.GlobalMapConfigs[key]
+func (c *ConfigService) GetGlobalMapConfig(key string) map[string]string {
+	m := c.GlobalMapConfigs[key]
 	if m == nil {
 		return map[string]string{}
 	}
 	return m
 }
-func (this *ConfigService) GetGlobalArrMapConfig(key string) []map[string]string {
-	m := this.GlobalArrMapConfigs[key]
+func (c *ConfigService) GetGlobalArrMapConfig(key string) []map[string]string {
+	m := c.GlobalArrMapConfigs[key]
 	if m == nil {
 		return []map[string]string{}
 	}
 	return m
 }
 
-func (this *ConfigService) IsOpenRegister() bool {
-	return this.GetGlobalStringConfig("openRegister") != ""
+func (c *ConfigService) IsOpenRegister() bool {
+	return c.GetGlobalStringConfig("openRegister") != ""
 }
 
 //-------
 // 修改共享笔记的配置
-func (this *ConfigService) UpdateShareNoteConfig(registerSharedUserId string,
+func (c *ConfigService) UpdateShareNoteConfig(registerSharedUserId string,
 	registerSharedNotebookPerms, registerSharedNotePerms []int,
 	registerSharedNotebookIds, registerSharedNoteIds, registerCopyNoteIds []string) (ok bool, msg string) {
 
@@ -208,7 +208,7 @@ func (this *ConfigService) UpdateShareNoteConfig(registerSharedUserId string,
 	if registerSharedUserId == "" {
 		ok = true
 		msg = "share userId is blank, So it share nothing to register"
-		this.UpdateGlobalStringConfig(this.adminUserId, "registerSharedUserId", "")
+		c.UpdateGlobalStringConfig(c.adminUserId, "registerSharedUserId", "")
 		return
 	} else {
 		user := userService.GetUserInfo(registerSharedUserId)
@@ -217,7 +217,7 @@ func (this *ConfigService) UpdateShareNoteConfig(registerSharedUserId string,
 			msg = "no such user: " + registerSharedUserId
 			return
 		} else {
-			this.UpdateGlobalStringConfig(this.adminUserId, "registerSharedUserId", registerSharedUserId)
+			c.UpdateGlobalStringConfig(c.adminUserId, "registerSharedUserId", registerSharedUserId)
 		}
 	}
 
@@ -244,7 +244,7 @@ func (this *ConfigService) UpdateShareNoteConfig(registerSharedUserId string,
 			}
 		}
 	}
-	this.UpdateGlobalArrMapConfig(this.adminUserId, "registerSharedNotebooks", notebooks)
+	c.UpdateGlobalArrMapConfig(c.adminUserId, "registerSharedNotebooks", notebooks)
 
 	notes := []map[string]string{}
 	// 共享笔记
@@ -269,7 +269,7 @@ func (this *ConfigService) UpdateShareNoteConfig(registerSharedUserId string,
 			}
 		}
 	}
-	this.UpdateGlobalArrMapConfig(this.adminUserId, "registerSharedNotes", notes)
+	c.UpdateGlobalArrMapConfig(c.adminUserId, "registerSharedNotes", notes)
 
 	// 复制
 	noteIds := []string{}
@@ -290,27 +290,27 @@ func (this *ConfigService) UpdateShareNoteConfig(registerSharedUserId string,
 			}
 		}
 	}
-	this.UpdateGlobalArrayConfig(this.adminUserId, "registerCopyNoteIds", noteIds)
+	c.UpdateGlobalArrayConfig(c.adminUserId, "registerCopyNoteIds", noteIds)
 
 	ok = true
 	return
 }
 
 // 添加备份
-func (this *ConfigService) AddBackup(path, remark string) bool {
-	backups := this.GetGlobalArrMapConfig("backups") // [{}, {}]
+func (c *ConfigService) AddBackup(path, remark string) bool {
+	backups := c.GetGlobalArrMapConfig("backups") // [{}, {}]
 	n := time.Now().Unix()
 	nstr := fmt.Sprintf("%v", n)
 	backups = append(backups, map[string]string{"createdTime": nstr, "path": path, "remark": remark})
-	return this.UpdateGlobalArrMapConfig(this.adminUserId, "backups", backups)
+	return c.UpdateGlobalArrMapConfig(c.adminUserId, "backups", backups)
 }
 
-func (this *ConfigService) getBackupDirname() string {
+func (c *ConfigService) getBackupDirname() string {
 	n := time.Now()
 	y, m, d := n.Date()
 	return strconv.Itoa(y) + "_" + m.String() + "_" + strconv.Itoa(d) + "_" + fmt.Sprintf("%v", n.Unix())
 }
-func (this *ConfigService) Backup(remark string) (ok bool, msg string) {
+func (c *ConfigService) Backup(remark string) (ok bool, msg string) {
 	binPath := configService.GetGlobalStringConfig("mongodumpPath")
 	config := revel.Config
 	dbname, _ := config.String("db.dbname")
@@ -324,7 +324,7 @@ func (this *ConfigService) Backup(remark string) (ok bool, msg string) {
 		binPath += " -u " + username + " -p " + password
 	}
 	// 保存的路径
-	dir := revel.BasePath + "/mongodb_backup/" + this.getBackupDirname()
+	dir := revel.BasePath + "/mongodb_backup/" + c.getBackupDirname()
 	binPath += " -o " + dir
 	err := os.MkdirAll(dir, 0755)
 	if err != nil {
@@ -348,8 +348,8 @@ func (this *ConfigService) Backup(remark string) (ok bool, msg string) {
 }
 
 // 还原
-func (this *ConfigService) Restore(createdTime string) (ok bool, msg string) {
-	backups := this.GetGlobalArrMapConfig("backups") // [{}, {}]
+func (c *ConfigService) Restore(createdTime string) (ok bool, msg string) {
+	backups := c.GetGlobalArrMapConfig("backups") // [{}, {}]
 	var i int
 	var backup map[string]string
 	for i, backup = range backups {
@@ -362,7 +362,7 @@ func (this *ConfigService) Restore(createdTime string) (ok bool, msg string) {
 	}
 
 	// 先备份当前
-	ok, msg = this.Backup("Auto backup when restore from " + backup["createdTime"])
+	ok, msg = c.Backup("Auto backup when restore from " + backup["createdTime"])
 	if !ok {
 		return
 	}
@@ -402,8 +402,8 @@ func (this *ConfigService) Restore(createdTime string) (ok bool, msg string) {
 
 	return true, ""
 }
-func (this *ConfigService) DeleteBackup(createdTime string) (bool, string) {
-	backups := this.GetGlobalArrMapConfig("backups") // [{}, {}]
+func (c *ConfigService) DeleteBackup(createdTime string) (bool, string) {
+	backups := c.GetGlobalArrMapConfig("backups") // [{}, {}]
 	var i int
 	var backup map[string]string
 	for i, backup = range backups {
@@ -424,12 +424,12 @@ func (this *ConfigService) DeleteBackup(createdTime string) (bool, string) {
 	// 删除之
 	backups = append(backups[0:i], backups[i+1:]...)
 
-	ok := this.UpdateGlobalArrMapConfig(this.adminUserId, "backups", backups)
+	ok := c.UpdateGlobalArrMapConfig(c.adminUserId, "backups", backups)
 	return ok, ""
 }
 
-func (this *ConfigService) UpdateBackupRemark(createdTime, remark string) (bool, string) {
-	backups := this.GetGlobalArrMapConfig("backups") // [{}, {}]
+func (c *ConfigService) UpdateBackupRemark(createdTime, remark string) (bool, string) {
+	backups := c.GetGlobalArrMapConfig("backups") // [{}, {}]
 	var i int
 	var backup map[string]string
 	for i, backup = range backups {
@@ -442,13 +442,13 @@ func (this *ConfigService) UpdateBackupRemark(createdTime, remark string) (bool,
 	}
 	backup["remark"] = remark
 
-	ok := this.UpdateGlobalArrMapConfig(this.adminUserId, "backups", backups)
+	ok := c.UpdateGlobalArrMapConfig(c.adminUserId, "backups", backups)
 	return ok, ""
 }
 
 // 得到备份
-func (this *ConfigService) GetBackup(createdTime string) (map[string]string, bool) {
-	backups := this.GetGlobalArrMapConfig("backups") // [{}, {}]
+func (c *ConfigService) GetBackup(createdTime string) (map[string]string, bool) {
+	backups := c.GetGlobalArrMapConfig("backups") // [{}, {}]
 	var i int
 	var backup map[string]string
 	for i, backup = range backups {
@@ -480,7 +480,7 @@ func init() {
 			}
 		*/
 
-		siteUrl, _ := revel.Config.String("site.url") // 已包含:9000, http, 去掉成 leanote.com
+		siteUrl, _ := revel.Config.String("site.url") // 已包含:9000, http, 去掉成 yingnote.cn
 		if strings.HasPrefix(siteUrl, "http://") {
 			defaultDomain = siteUrl[len("http://"):]
 		} else if strings.HasPrefix(siteUrl, "https://") {
@@ -501,54 +501,54 @@ func init() {
 	})
 }
 
-func (this *ConfigService) GetSchema() string {
+func (c *ConfigService) GetSchema() string {
 	return schema
 }
 
 // 默认
-func (this *ConfigService) GetDefaultDomain() string {
+func (c *ConfigService) GetDefaultDomain() string {
 	return defaultDomain
 }
 
 // note
-func (this *ConfigService) GetNoteDomain() string {
+func (c *ConfigService) GetNoteDomain() string {
 	return "/note"
 }
-func (this *ConfigService) GetNoteUrl() string {
-	return this.GetNoteDomain()
+func (c *ConfigService) GetNoteUrl() string {
+	return c.GetNoteDomain()
 }
 
 // blog
-func (this *ConfigService) GetBlogDomain() string {
+func (c *ConfigService) GetBlogDomain() string {
 	return "/blog"
 }
-func (this *ConfigService) GetBlogUrl() string {
-	return this.GetBlogDomain()
+func (c *ConfigService) GetBlogUrl() string {
+	return c.GetBlogDomain()
 }
 
 // lea
-func (this *ConfigService) GetLeaDomain() string {
+func (c *ConfigService) GetLeaDomain() string {
 	return "/lea"
 }
-func (this *ConfigService) GetLeaUrl() string {
-	return schema + this.GetLeaDomain()
+func (c *ConfigService) GetLeaUrl() string {
+	return schema + c.GetLeaDomain()
 }
 
-func (this *ConfigService) GetUserUrl(domain string) string {
+func (c *ConfigService) GetUserUrl(domain string) string {
 	return schema + domain + port
 }
-func (this *ConfigService) GetUserSubUrl(subDomain string) string {
-	return schema + subDomain + "." + this.GetDefaultDomain()
+func (c *ConfigService) GetUserSubUrl(subDomain string) string {
+	return schema + subDomain + "." + c.GetDefaultDomain()
 }
 
 // 是否允许自定义域名
-func (this *ConfigService) AllowCustomDomain() bool {
+func (c *ConfigService) AllowCustomDomain() bool {
 	return configService.GetGlobalStringConfig("allowCustomDomain") != ""
 }
 
 // 是否是好的自定义域名
-func (this *ConfigService) IsGoodCustomDomain(domain string) bool {
-	blacks := this.GetGlobalArrayConfig("blackCustomDomains")
+func (c *ConfigService) IsGoodCustomDomain(domain string) bool {
+	blacks := c.GetGlobalArrayConfig("blackCustomDomains")
 	for _, black := range blacks {
 		if strings.Contains(domain, black) {
 			return false
@@ -556,8 +556,8 @@ func (this *ConfigService) IsGoodCustomDomain(domain string) bool {
 	}
 	return true
 }
-func (this *ConfigService) IsGoodSubDomain(domain string) bool {
-	blacks := this.GetGlobalArrayConfig("blackSubDomains")
+func (c *ConfigService) IsGoodSubDomain(domain string) bool {
+	blacks := c.GetGlobalArrayConfig("blackSubDomains")
 	LogJ(blacks)
 	for _, black := range blacks {
 		if domain == black {
@@ -568,31 +568,31 @@ func (this *ConfigService) IsGoodSubDomain(domain string) bool {
 }
 
 // 上传大小
-func (this *ConfigService) GetUploadSize(key string) float64 {
-	f, _ := strconv.ParseFloat(this.GetGlobalStringConfig(key), 64)
+func (c *ConfigService) GetUploadSize(key string) float64 {
+	f, _ := strconv.ParseFloat(c.GetGlobalStringConfig(key), 64)
 	return f
 }
-func (this *ConfigService) GetInt64(key string) int64 {
-	f, _ := strconv.ParseInt(this.GetGlobalStringConfig(key), 10, 64)
+func (c *ConfigService) GetInt64(key string) int64 {
+	f, _ := strconv.ParseInt(c.GetGlobalStringConfig(key), 10, 64)
 	return f
 }
-func (this *ConfigService) GetInt32(key string) int32 {
-	f, _ := strconv.ParseInt(this.GetGlobalStringConfig(key), 10, 32)
+func (c *ConfigService) GetInt32(key string) int32 {
+	f, _ := strconv.ParseInt(c.GetGlobalStringConfig(key), 10, 32)
 	return int32(f)
 }
-func (this *ConfigService) GetUploadSizeLimit() map[string]float64 {
+func (c *ConfigService) GetUploadSizeLimit() map[string]float64 {
 	return map[string]float64{
-		"uploadImageSize":    this.GetUploadSize("uploadImageSize"),
-		"uploadBlogLogoSize": this.GetUploadSize("uploadBlogLogoSize"),
-		"uploadAttachSize":   this.GetUploadSize("uploadAttachSize"),
-		"uploadAvatarSize":   this.GetUploadSize("uploadAvatarSize"),
+		"uploadImageSize":    c.GetUploadSize("uploadImageSize"),
+		"uploadBlogLogoSize": c.GetUploadSize("uploadBlogLogoSize"),
+		"uploadAttachSize":   c.GetUploadSize("uploadAttachSize"),
+		"uploadAvatarSize":   c.GetUploadSize("uploadAvatarSize"),
 	}
 }
 
 // 为用户得到全局的配置
 // NoteController调用
-func (this *ConfigService) GetGlobalConfigForUser() map[string]interface{} {
-	uploadSizeConfigs := this.GetUploadSizeLimit()
+func (c *ConfigService) GetGlobalConfigForUser() map[string]interface{} {
+	uploadSizeConfigs := c.GetUploadSizeLimit()
 	config := map[string]interface{}{}
 	for k, v := range uploadSizeConfigs {
 		config[k] = v
@@ -601,10 +601,10 @@ func (this *ConfigService) GetGlobalConfigForUser() map[string]interface{} {
 }
 
 // 主页是否是管理员的博客页
-func (this *ConfigService) HomePageIsAdminsBlog() bool {
-	return this.GetGlobalStringConfig("homePage") == ""
+func (c *ConfigService) HomePageIsAdminsBlog() bool {
+	return c.GetGlobalStringConfig("homePage") == ""
 }
 
-func (this *ConfigService) GetVersion() string {
+func (c *ConfigService) GetVersion() string {
 	return "2.3"
 }

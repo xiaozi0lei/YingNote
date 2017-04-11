@@ -8,12 +8,10 @@
 
 		<div>
 			<a class="btn btn-default btn-primary" href="/register">{{msg . "register"}}</a>
-			&nbsp;
-			&nbsp;
+			&nbsp;&nbsp;
 			{{if not .userInfo.UserId}}
 				<a class="btn btn-default" href="/login">{{msg . "login"}}</a>
-				&nbsp;
-				&nbsp;
+				&nbsp;&nbsp;
 			{{end}}
 
 			<a class="btn btn-default" href="/demo">{{msg . "try"}}</a>

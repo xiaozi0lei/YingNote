@@ -3,6 +3,7 @@ package app
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/revel/revel"
 	"github.com/xiaozi0lei/YingNote/app/controllers"
 	"github.com/xiaozi0lei/YingNote/app/controllers/admin"
 	"github.com/xiaozi0lei/YingNote/app/controllers/api"
@@ -13,7 +14,6 @@ import (
 	"github.com/xiaozi0lei/YingNote/app/lea/i18n"
 	"github.com/xiaozi0lei/YingNote/app/lea/route"
 	"github.com/xiaozi0lei/YingNote/app/service"
-	"github.com/revel/revel"
 	"html/template"
 	"math"
 	"net/url"
@@ -419,10 +419,11 @@ func init() {
 
 	// init Email
 	revel.OnAppStart(func() {
-		// 数据库
+		// mongodb 数据库
 		db.Init("", "")
 		// email配置
 		InitEmail()
+		// validation 规则
 		InitVd()
 		// memcache.InitMemcache() // session服务
 		// 其它service

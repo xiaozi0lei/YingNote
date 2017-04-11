@@ -1,11 +1,10 @@
 package controllers
 
 import (
+	"github.com/revel/revel"
 	"github.com/xiaozi0lei/YingNote/app/info"
 	"github.com/xiaozi0lei/YingNote/app/lea/blog"
 	"github.com/xiaozi0lei/YingNote/app/service"
-	//	. "github.com/leanote/leanote/app/lea"
-	"github.com/revel/revel"
 	"strings"
 )
 
@@ -22,7 +21,8 @@ var pwdService *service.PwdService
 var tokenService *service.TokenService
 var suggestionService *service.SuggestionService
 var albumService *service.AlbumService
-var noteImageService *service.NoteImageService
+
+//var noteImageService *service.NoteImageService
 var fileService *service.FileService
 var attachService *service.AttachService
 var configService *service.ConfigService
@@ -31,11 +31,11 @@ var sessionService *service.SessionService
 var themeService *service.ThemeService
 
 var pageSize = 1000
+
+// 默认按照更新时间排序
 var defaultSortField = "UpdatedTime"
 
-// 拦截器
-// 不需要拦截的url
-// Index 除了Note之外都不需要
+// 拦截器设置，存放不需要拦截的 url ， Index 除了 Note 之外都不需要拦截
 var commonUrl = map[string]map[string]bool{
 	"Index": {
 		"Index":              true,
@@ -50,10 +50,10 @@ var commonUrl = map[string]map[string]bool{
 		"FindPasswordUpdate": true,
 		"Suggestion":         true,
 	},
-	"Note": map[string]bool{
+	"Note": {
 		"ToPdf": true,
 	},
-	"Blog": map[string]bool{
+	"Blog": {
 		"Index":              true,
 		"View":               true,
 		"AboutMe":            true,
@@ -68,25 +68,25 @@ var commonUrl = map[string]map[string]bool{
 		"Tags":               true,
 	},
 	// 用户的激活与修改邮箱都不需要登录, 通过链接地址
-	"User": map[string]bool{
+	"User": {
 		"UpdateEmail": true,
 		"ActiveEmail": true,
 	},
-	"Oauth": map[string]bool{
+	"Oauth": {
 		"GithubCallback": true,
 	},
-	"File": map[string]bool{
+	"File": {
 		"OutputImage": true,
 		"OutputFile":  true,
 	},
-	"Attach": map[string]bool{
+	"Attach": {
 		"Download": true,
 		/*, "DownloadAll": true*/
 	},
 }
 
 func needValidate(controller, method string) bool {
-	// 在里面
+	// controller 在不需要拦截的 commonUrl 里面时，不需要验证，返回 false
 	if v, ok := commonUrl[controller]; ok {
 		// 在commonUrl里
 		if _, ok2 := v[method]; ok2 {
@@ -94,10 +94,11 @@ func needValidate(controller, method string) bool {
 		}
 		return true
 	} else {
-		// controller不在这里的, 肯定要验证
+		// controller 不在 commonUrl 的, 肯定要验证
 		return true
 	}
 }
+
 func AuthInterceptor(c *revel.Controller) revel.Result {
 	// 全部变成首字大写
 	var controller = strings.Title(c.Name)
@@ -113,18 +114,17 @@ func AuthInterceptor(c *revel.Controller) revel.Result {
 		return nil // 已登录
 	}
 
-	// 没有登录, 判断是否是ajax操作
+	// 没有登录, 判断是否是 ajax 操作
 	if c.Request.Header.Get("X-Requested-With") == "XMLHttpRequest" {
 		re := info.NewRe()
 		re.Msg = "NOTLOGIN"
-		return c.RenderJson(re)
+		return c.RenderJSON(re)
 	}
 
 	return c.Redirect("/login")
 }
 
-// 最外层init.go调用
-// 获取service, 单例
+// 最外层 app/init.go 调用，获取 service , 单例
 func InitService() {
 	notebookService = service.NotebookS
 	noteService = service.NoteS
@@ -135,7 +135,7 @@ func InitService() {
 	tagService = service.TagS
 	blogService = service.BlogS
 	tokenService = service.TokenS
-	noteImageService = service.NoteImageS
+	//noteImageService = service.NoteImageS
 	fileService = service.FileS
 	albumService = service.AlbumS
 	attachService = service.AttachS
@@ -150,8 +150,8 @@ func InitService() {
 
 // 初始化博客模板
 // 博客模板不由revel的
-func initBlogTemplate() {
-}
+//func initBlogTemplate() {
+//}
 
 func init() {
 	// interceptor
@@ -163,7 +163,7 @@ func init() {
 	revel.InterceptFunc(AuthInterceptor, revel.BEFORE, &Album{})
 	revel.InterceptFunc(AuthInterceptor, revel.BEFORE, &File{})
 	revel.InterceptFunc(AuthInterceptor, revel.BEFORE, &Attach{})
-	//	revel.InterceptFunc(AuthInterceptor, revel.BEFORE, &Blog{})
+	//revel.InterceptFunc(AuthInterceptor, revel.BEFORE, &Blog{})
 	revel.InterceptFunc(AuthInterceptor, revel.BEFORE, &NoteContentHistory{})
 
 	revel.OnAppStart(func() {

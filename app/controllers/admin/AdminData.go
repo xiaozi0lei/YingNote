@@ -3,9 +3,9 @@ package admin
 import (
 	"archive/tar"
 	"compress/gzip"
+	"github.com/revel/revel"
 	"github.com/xiaozi0lei/YingNote/app/info"
 	. "github.com/xiaozi0lei/YingNote/app/lea"
-	"github.com/revel/revel"
 	"io"
 	"os"
 	"time"
@@ -26,33 +26,33 @@ func (c AdminData) Index() revel.Result {
 		backups2[j] = backups[i]
 		j++
 	}
-	c.RenderArgs["backups"] = backups2
+	c.ViewArgs["backups"] = backups2
 	return c.RenderTemplate("admin/data/index.html")
 }
 
 func (c AdminData) Backup() revel.Result {
 	re := info.NewRe()
 	re.Ok, re.Msg = configService.Backup("")
-	return c.RenderJson(re)
+	return c.RenderJSON(re)
 }
 
 // 还原
 func (c AdminData) Restore(createdTime string) revel.Result {
 	re := info.Re{}
 	re.Ok, re.Msg = configService.Restore(createdTime)
-	return c.RenderJson(re)
+	return c.RenderJSON(re)
 }
 
 func (c AdminData) Delete(createdTime string) revel.Result {
 	re := info.Re{}
 	re.Ok, re.Msg = configService.DeleteBackup(createdTime)
-	return c.RenderJson(re)
+	return c.RenderJSON(re)
 }
 func (c AdminData) UpdateRemark(createdTime, remark string) revel.Result {
 	re := info.Re{}
 	re.Ok, re.Msg = configService.UpdateBackupRemark(createdTime, remark)
 
-	return c.RenderJson(re)
+	return c.RenderJSON(re)
 }
 func (c AdminData) Download(createdTime string) revel.Result {
 	backup, ok := configService.GetBackup(createdTime)

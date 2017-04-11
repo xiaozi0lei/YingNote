@@ -308,7 +308,7 @@ func (this *NoteService) AddNoteContent(noteContent info.NoteContent) info.NoteC
 // API, abstract, desc需要这里获取
 // 不需要
 /*
-func (this *NoteService) AddNoteAndContentApi(note info.Note, noteContent info.NoteContent, myUserId bson.ObjectId) info.Note {
+func (c *NoteService) AddNoteAndContentApi(note info.Note, noteContent info.NoteContent, myUserId bson.ObjectId) info.Note {
 	if(note.NoteId.Hex() == "") {
 		noteId := bson.NewObjectId();
 		note.NoteId = noteId;
@@ -343,7 +343,7 @@ func (this *NoteService) AddNoteAndContentApi(note info.Note, noteContent info.N
 	// 这里, 添加到内容中
 	abstract := SubStringHTML(noteContent.Content, 200, "")
 	noteContent.Abstract = abstract
-	this.AddNoteContent(noteContent)
+	c.AddNoteContent(noteContent)
 
 	return note
 }*/
@@ -416,13 +416,13 @@ func (this *NoteService) UpdateNote(updatedUserId, noteId string, needUpdate bso
 	}
 
 	/*
-	// 这里不再判断, 因为controller已经判断了, 删除附件会新增, 所以不用判断
-	if usn > 0 && note.Usn != usn {
-		Log("有冲突!!")
-		Log(note.Usn)
-		Log(usn)
-		return false, "conflict", 0
-	}
+		// 这里不再判断, 因为controller已经判断了, 删除附件会新增, 所以不用判断
+		if usn > 0 && note.Usn != usn {
+			Log("有冲突!!")
+			Log(note.Usn)
+			Log(usn)
+			return false, "conflict", 0
+		}
 	*/
 
 	// 是否已自定义
@@ -1050,7 +1050,7 @@ func (this *NoteService) FixContent(content string, isMarkdown bool) string {
 	patterns := []map[string]string{
 		map[string]string{"src": "src", "middle": "/api/file/getImage", "param": "fileId", "to": "getImage?fileId="},
 		map[string]string{"src": "src", "middle": "/file/outputImage", "param": "fileId", "to": "getImage?fileId="},
-		
+
 		map[string]string{"src": "href", "middle": "/attach/download", "param": "attachId", "to": "getAttach?fileId="},
 		map[string]string{"src": "href", "middle": "/api/file/getAtach", "param": "fileId", "to": "getAttach?fileId="},
 

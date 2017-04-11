@@ -2,8 +2,8 @@ package db
 
 import (
 	"fmt"
-	. "github.com/xiaozi0lei/YingNote/app/lea"
 	"github.com/revel/revel"
+	. "github.com/xiaozi0lei/YingNote/app/lea"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"strings"
@@ -100,6 +100,7 @@ func Init(url, dbname string) {
 	// mongodb://myuser:mypass@localhost:40001,otherhost:40001/mydb
 	var err error
 	Session, err = mgo.Dial(url)
+
 	if err != nil {
 		panic(err)
 	}
@@ -356,8 +357,7 @@ func Err(err error) bool {
 	return true
 }
 
-// 检查mognodb是否lost connection
-// 每个请求之前都要检查!!
+// 检查 Mongodb 是否lost connection ,每个请求之前都要检查!!
 func CheckMongoSessionLost() {
 	// fmt.Println("检查CheckMongoSessionLostErr")
 	err := Session.Ping()

@@ -1,10 +1,9 @@
 package api
 
 import (
+	"github.com/revel/revel"
 	"github.com/xiaozi0lei/YingNote/app/info"
 	"github.com/xiaozi0lei/YingNote/app/service"
-	//		. "github.com/leanote/leanote/app/lea"
-	"github.com/revel/revel"
 	"strings"
 )
 
@@ -44,11 +43,14 @@ const (
 
 // 拦截器
 // 不需要拦截的url
-var commonUrl = map[string]map[string]bool{"ApiAuth": map[string]bool{"Login": true,
-	"Register": true,
-},
+var commonUrl = map[string]map[string]bool{
+	"ApiAuth": {
+		"Login":    true,
+		"Register": true,
+	},
 	// 文件的操作也不用登录, userId会从session中获取
-	"ApiFile": map[string]bool{"GetImage": true,
+	"ApiFile": {
+		"GetImage":      true,
 		"GetAttach":     true,
 		"GetAllAttachs": true,
 	},
@@ -75,7 +77,7 @@ func AuthInterceptor(c *revel.Controller) revel.Result {
 	noToken := false
 	if token == "" {
 		// 若无, 则取sessionId
-		token = c.Session.Id()
+		token = c.Session.ID()
 		noToken = true
 	}
 	c.Session["_token"] = token
@@ -106,7 +108,7 @@ func AuthInterceptor(c *revel.Controller) revel.Result {
 	// 没有登录, 返回错误的信息, 需要登录
 	re := info.NewApiRe()
 	re.Msg = "NOTLOGIN"
-	return c.RenderJson(re)
+	return c.RenderJSON(re)
 }
 
 func init() {

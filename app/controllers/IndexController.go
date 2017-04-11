@@ -1,13 +1,11 @@
 package controllers
 
 import (
-	"github.com/xiaozi0lei/YingNote/app/info"
 	"github.com/revel/revel"
-	//	. "github.com/leanote/leanote/app/lea"
+	"github.com/xiaozi0lei/YingNote/app/info"
 )
 
 // 首页
-
 type Index struct {
 	BaseController
 }
@@ -23,8 +21,8 @@ func (c Index) Default() revel.Result {
 // YingNote 展示页, 没有登录的, 或已登录明确要进该页的
 func (c Index) Index() revel.Result {
 	c.SetUserInfo()
-	c.RenderArgs["title"] = "YingNote"
-	c.RenderArgs["openRegister"] = configService.GlobalStringConfigs["openRegister"]
+	c.ViewArgs["title"] = "YingNote"
+	c.ViewArgs["openRegister"] = configService.GlobalStringConfigs["openRegister"]
 	c.SetLocale()
 
 	return c.RenderTemplate("home/index.html")
@@ -40,5 +38,5 @@ func (c Index) Suggestion(addr, suggestion string) revel.Result {
 		emailService.SendEmail("leanote@leanote.com", "建议", "UserId: "+c.GetUserId()+" <br /> Suggestions: "+suggestion)
 	}()
 
-	return c.RenderJson(re)
+	return c.RenderJSON(re)
 }
