@@ -3,7 +3,7 @@ package i18n
 import (
 	"fmt"
 	"github.com/revel/revel"
-	"github.com/robfig/config"
+	"github.com/revel/config"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -52,23 +52,21 @@ func MessageLanguages() []string {
 }
 
 // Perform a message look-up for the given locale and message using the given arguments.
-//
 // When either an unknown locale or message is detected, a specially formatted string is returned.
 func Message(locale, message string, args ...interface{}) string {
-	language, region := parseLocale(locale)
+	_, region := parseLocale(locale)
 
-	langAndRegion := language + "-" + region
-	// revel.TRACE.Println(langAndRegion + " 怎么回事")
+	messageConfig, ok := messages[locale]
 
-	messageConfig, knownLanguage := messages[langAndRegion]
-	if !knownLanguage {
-		// revel.TRACE.Printf("Unsupported language for locale '%s' and message '%s', trying default language", locale, message)
+	if !ok {
 
 		if defaultLanguage, found := revel.Config.String(defaultLanguageOption); found {
+			// revel.TRACE.Printf("Unsupported language for locale '%s' and message '%s', trying default language", locale, message)
 			// revel.TRACE.Printf("Using default language '%s'", defaultLanguage)
 
-			messageConfig, knownLanguage = messages[defaultLanguage]
-			if !knownLanguage {
+			messageConfig, ok = messages[defaultLanguage]
+
+			if !ok {
 				// WARN.Printf("Unsupported default language for locale '%s' and message '%s'", defaultLanguage, message)
 				return fmt.Sprintf(unknownValueFormat, message)
 			}
@@ -80,8 +78,9 @@ func Message(locale, message string, args ...interface{}) string {
 
 	// This works because unlike the goconfig documentation suggests it will actually
 	// try to resolve message in DEFAULT if it did not find it in the given section.
-	value, error := messageConfig.String(region, message)
-	if error != nil {
+	value, err := messageConfig.String(region, message)
+
+	if err != nil {
 		// WARN.Printf("Unknown message '%s' for locale '%s'", message, locale)
 		return fmt.Sprintf(unknownValueFormat, message)
 	}
@@ -107,7 +106,7 @@ func parseLocale(locale string) (language, region string) {
 func loadMessages(path string) {
 	messages = make(map[string]*config.Config)
 
-	if error := filepath.Walk(path, loadEachMessageLang); error != nil && !os.IsNotExist(error) {
+	if err := filepath.Walk(path, loadEachMessageLang); err != nil && !os.IsNotExist(err) {
 		// ERROR.Println("Error reading messages files:", error)
 	}
 }
@@ -212,10 +211,10 @@ func hasAcceptLanguageHeader(request *revel.Request) (bool, string) {
 func hasLocaleCookie(request *revel.Request) (bool, string) {
 	if request != nil && request.Cookies() != nil {
 		name := revel.Config.StringDefault(localeCookieConfigKey, revel.CookiePrefix+"_LANG")
-		if cookie, error := request.Cookie(name); error == nil {
+		if cookie, err := request.Cookie(name); err == nil {
 			return true, cookie.Value
 		} else {
-			revel.TRACE.Printf("Unable to read locale cookie with name '%s': %s", name, error.Error())
+			revel.TRACE.Printf("Unable to read locale cookie with name '%s': %s", name, err.Error())
 		}
 	}
 

@@ -737,12 +737,12 @@ input,
 .hide-img {
   opacity: 0;
 }
-.footer-leanote {
+.footer-yingnote {
   margin-top: 20px;
   color: #475F77;
   text-align: center;
 }
-#footer .footer-leanote a {
+#footer .footer-yingnote a {
   color: #475F77;
 }
 /* news */

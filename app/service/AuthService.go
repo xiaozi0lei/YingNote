@@ -2,9 +2,7 @@ package service
 
 import (
 	"gopkg.in/mgo.v2/bson"
-	//	"github.com/leanote/leanote/app/db"
 	"github.com/xiaozi0lei/YingNote/app/info"
-	//	"github.com/revel/revel"
 	"errors"
 	"fmt"
 	. "github.com/xiaozi0lei/YingNote/app/lea"
@@ -13,13 +11,12 @@ import (
 )
 
 // 登录与权限 Login & Register
-
 type AuthService struct {
 }
 
-// 使用bcrypt认证或者Md5认证
+// 使用 bcrypt 认证或者 Md5 认证
 // Use bcrypt (Md5 depreciated)
-func (this *AuthService) Login(emailOrUsername, pwd string) (info.User, error) {
+func (a *AuthService) Login(emailOrUsername, pwd string) (info.User, error) {
 	emailOrUsername = strings.Trim(emailOrUsername, " ")
 	//	pwd = strings.Trim(pwd, " ")
 	userInfo := userService.GetUserInfoByName(emailOrUsername)
@@ -38,9 +35,9 @@ func (this *AuthService) Login(emailOrUsername, pwd string) (info.User, error) {
 将note1 复制到用户的生活nk上
 */
 // 1. 添加用户
-// 2. 将leanote共享给我
+// 2. 将 yingnote 共享给我
 // [ok]
-func (this *AuthService) Register(email, pwd, fromUserId string) (bool, string) {
+func (a *AuthService) Register(email, pwd, fromUserId string) (bool, string) {
 	// 用户是否已存在
 	if userService.IsExistsUser(email) {
 		return false, "userHasBeenRegistered-" + email
@@ -53,10 +50,10 @@ func (this *AuthService) Register(email, pwd, fromUserId string) (bool, string) 
 	if fromUserId != "" && IsObjectId(fromUserId) {
 		user.FromUserId = bson.ObjectIdHex(fromUserId)
 	}
-	return this.register(user)
+	return a.register(user)
 }
 
-func (this *AuthService) register(user info.User) (bool, string) {
+func (a *AuthService) register(user info.User) (bool, string) {
 	if userService.AddUser(user) {
 		// 添加笔记本, 生活, 学习, 工作
 		userId := user.UserId.Hex()
@@ -105,7 +102,7 @@ func (this *AuthService) register(user info.User) (bool, string) {
 		// 添加一条userBlog
 		blogService.UpdateUserBlog(info.UserBlog{UserId: user.UserId,
 			Title:      user.Username + " 's Blog",
-			SubTitle:   "Love Leanote!",
+			SubTitle:   "Love YingNote!",
 			AboutMe:    "Hello, I am (^_^)",
 			CanComment: true,
 		})
@@ -120,7 +117,7 @@ func (this *AuthService) register(user info.User) (bool, string) {
 // 第三方注册
 
 // 第三方得到用户名, 可能需要多次判断
-func (this *AuthService) getUsername(thirdType, thirdUsername string) (username string) {
+func (a *AuthService) getUsername(thirdType, thirdUsername string) (username string) {
 	username = thirdType + "-" + thirdUsername
 	i := 1
 	for {
@@ -131,19 +128,19 @@ func (this *AuthService) getUsername(thirdType, thirdUsername string) (username 
 	}
 }
 
-func (this *AuthService) ThirdRegister(thirdType, thirdUserId, thirdUsername string) (exists bool, userInfo info.User) {
+func (a *AuthService) ThirdRegister(thirdType, thirdUserId, thirdUsername string) (exists bool, userInfo info.User) {
 	userInfo = userService.GetUserInfoByThirdUserId(thirdUserId)
 	if userInfo.UserId != "" {
 		exists = true
 		return
 	}
 
-	username := this.getUsername(thirdType, thirdUsername)
+	username := a.getUsername(thirdType, thirdUsername)
 	userInfo = info.User{UserId: bson.NewObjectId(),
 		Username:      username,
 		ThirdUserId:   thirdUserId,
 		ThirdUsername: thirdUsername,
 	}
-	_, _ = this.register(userInfo)
+	_, _ = a.register(userInfo)
 	return
 }

@@ -1,4 +1,4 @@
-// leanote 通用方法
+// yingnote 通用方法
 
 //--------------
 // 命名空间
@@ -402,27 +402,6 @@ function setEditorContent(content, isMarkdown, preview, callback) {
 			}, 100);
 		}
 	} else {
-	/*
-		$("#wmd-input").val(content);
-		$("#wmd-preview").html(""); // 防止先点有的, 再点tinymce再点没内容的
-		if(!content || preview) { // 没有内容就不要解析了
-			$("#wmd-preview").html(preview).css("height", "auto");
-			if(ScrollLink) {
-				ScrollLink.onPreviewFinished(); // 告诉scroll preview结束了
-			}
-		} else {
-			// 还要清空preview
-			if(MarkdownEditor) {
-				$("#wmd-preview").html(previewToken + "<div style='text-align:center; padding: 10px 0;'><img src='http://leanote.com/images/loading-24.gif' /> 正在转换...</div>");
-				MarkdownEditor.refreshPreview();
-			} else {
-				// 等下再设置
-				clearIntervalForSetContent = setTimeout(function() {
-					setEditorContent(content, true, preview);
-				}, 200);
-			}
-		}
-	*/
 		if(MD) {
 			MD.setContent(content);
 			MD.clearUndo && MD.clearUndo();
@@ -784,7 +763,7 @@ function hideAlert(id, timeout) {
 }
 
 //-------------------
-// for leanote ajax
+// for yingnote ajax
 
 // post
 // return {Ok, Msg, Data}
@@ -803,7 +782,7 @@ function post(url, param, func, btnId) {
 				func(ret);
 			}
 		} else {
-			alert("leanote出现了错误!");
+			alert("yingnote 出现了错误!");
 		}
 	});
 }
@@ -864,8 +843,8 @@ function logout() {
 	Note.curChangedSaveIt(true);
 	LEA.isLogout = true;
 
-	setCookie("LEANOTE_SESSION", '', -1);
-	location.href = UrlPrefix + "/logout?id=1";
+	setCookie("YINGNOTE_SESSION", '', -1);
+	window.location.href = UrlPrefix + "/logout?id=1";
 }
 
 // 得到图片width, height, callback(ret); ret = {width:11, height:33}

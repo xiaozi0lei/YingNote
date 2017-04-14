@@ -35,7 +35,7 @@ func (c Auth) Login(email, from string) revel.Result {
 	return c.RenderTemplate("home/login.html")
 }
 
-// 为了demo和register
+// 为了 demo 和 register
 func (c Auth) doLogin(email, pwd string) revel.Result {
 	sessionId := c.Session.ID()
 	var msg = ""

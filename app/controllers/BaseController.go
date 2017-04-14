@@ -6,21 +6,18 @@ import (
 	"github.com/xiaozi0lei/YingNote/app/info"
 	"github.com/xiaozi0lei/YingNote/app/lea/i18n"
 	"gopkg.in/mgo.v2/bson"
-	//	. "github.com/leanote/leanote/app/lea"
-	//	"io/ioutil"
-	//	"fmt"
 	"bytes"
 	"math"
 	"strconv"
 	"strings"
 )
 
-// 公用Controller, 其它Controller继承它
+// 公用 Controller, 其它 Controller 继承它
 type BaseController struct {
 	*revel.Controller
 }
 
-// 覆盖revel.Message
+// 覆盖 revel.Message
 func (c *BaseController) Message(message string, args ...interface{}) (value string) {
 	return i18n.Message(c.Request.Locale, message, args...)
 }
@@ -97,7 +94,7 @@ func (c BaseController) GetUserAndBlogUrl() info.UserAndBlogUrl {
 	return info.UserAndBlogUrl{}
 }
 
-// 这里的session都是cookie中的, 与数据库session无关
+// 这里的 session 都是 cookie 中的, 与数据库 session 无关
 func (c BaseController) GetSession(key string) string {
 	v, ok := c.Session[key]
 	if !ok {
@@ -138,12 +135,12 @@ func (c BaseController) ClearSession() {
 	delete(c.Session, "theme")
 }
 
-// 修改session
+// 修改 session
 func (c BaseController) UpdateSession(key, value string) {
 	c.Session[key] = value
 }
 
-// 返回json
+// 返回 json
 func (c BaseController) Json(i interface{}) string {
 	//	b, _ := json.MarshalIndent(i, "", "	")
 	b, _ := json.Marshal(i)
@@ -187,14 +184,6 @@ func (c BaseController) E404() revel.Result {
 // 设置本地 locale
 func (c BaseController) SetLocale() string {
 	locale := string(c.Request.Locale) // zh-CN
-	// lang := locale
-	// if strings.Contains(locale, "-") {
-	// 	pos := strings.Index(locale, "-")
-	// 	lang = locale[0:pos]
-	// }
-	// if lang != "zh" && lang != "en" {
-	// 	lang = "en"
-	// }
 	lang := locale
 	if !i18n.HasLang(locale) {
 		lang = i18n.GetDefaultLang()
@@ -203,13 +192,13 @@ func (c BaseController) SetLocale() string {
 	c.ViewArgs["siteUrl"] = configService.GetSiteUrl()
 
 	c.ViewArgs["blogUrl"] = configService.GetBlogUrl()
-	c.ViewArgs["leaUrl"] = configService.GetLeaUrl()
+	//c.ViewArgs["leaUrl"] = configService.GetLeaUrl()
 	c.ViewArgs["noteUrl"] = configService.GetNoteUrl()
 
 	return lang
 }
 
-// 设置userInfo
+// 设置 userInfo
 func (c BaseController) SetUserInfo() info.User {
 	userInfo := c.GetUserInfo()
 	c.ViewArgs["userInfo"] = userInfo

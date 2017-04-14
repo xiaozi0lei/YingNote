@@ -1,33 +1,42 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <!-- 下面这行代码告诉IE浏览器，IE8/9及以后的版本都会以最高版本IE来渲染页面。 -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <!-- 下面是为了支持移动端浏览器良好的显示效果，初始缩放比例为1.0，宽度定位设备宽度 -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="keywords" content="YingNote,yingnote.cn,WanYing 笔记">
-<meta name="description" content="YingNote,WanYing 笔记, {{msg $ "moto"}}">
-<meta name="author" content="YingNote,WanYing 笔记">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="keywords" content="YingNote,yingnote.cn,WanYing 笔记" />
+<meta name="description" content="YingNote,WanYing 笔记, {{msg $ "moto"}}" />
+<meta name="author" content="YingNote,WanYing 笔记" />
 <title>{{.title}}</title>
 
-<link href="/css/bootstrap.css" rel="stylesheet">
-<link href="/css/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet">
-<link href="/css/index.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/bootstrap.css" />
+<link rel="stylesheet" href="/css/font-awesome-4.2.0/css/font-awesome.css" />
+<link rel="stylesheet" href="/css/index.css" />
+
 <script>
+    // 浏览器 debug 窗口打印 log 信息
 	function log(o) {
 		console.log(o);
 	}
 </script>
+
 </head>
 
+<!--
+ 使用 . 来访问当前位置的上下文
+ 使用 $ 来引用当前模板根级的上下文
+ 使用 $var 来访问创建的变量
+ 在外部变量名称前加符号 $ 即可，单独的 $ 意义等同于 global
+ -->
 <body class="lang-{{$.locale}}">
 <nav id="headerContainer" style="background-color:#fff" class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/index" id="logo">
 				YingNote
-				<!--<img src="/images/logo/leanote_black.png" class="hide" title="yingnote, {{msg $ "moto"}}"/>-->
+				<img src="/images/logo/yingnote_black.png" class="hide" title="yingnote, {{msg $ "moto"}}"/>
 			</a>
 		</div>
 		
@@ -48,7 +57,8 @@
 				-->
 
 				<li>
-					<a id="leanoteApp" href="https://yingnote.cn/blog/post/xiaozi0lei@163.com/YingNote%E7%AC%94%E8%AE%B0%E6%A1%8C%E9%9D%A2%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%89%88%E6%9C%AC" target="_blank" title="Leanote App" class="">{{msg . "desktopApp"}}</a>
+					<!-- 客户端 -->
+					<a id="yingNoteApp" href="https://www.yingnote.cn/blog/post/yingnote@yingnote.cn/ea2e2546eb88" target="_blank" title="YingNote App" class="">{{msg . "desktopApp"}}</a>
                 </li>
 
 				<li>

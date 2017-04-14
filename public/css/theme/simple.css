@@ -3148,75 +3148,75 @@ h3 {
     margin-top: 0;
     border: none;
   }
-  .leanote-plugin #header {
+  .yingnote-plugin #header {
     height: 40px;
   }
-  .leanote-plugin #mainContainer {
+  .yingnote-plugin #mainContainer {
     top: 40px;
   }
-  .leanote-plugin .profile-img {
+  .yingnote-plugin .profile-img {
     line-height: 37px;
   }
-  .leanote-plugin #switcher i {
+  .yingnote-plugin #switcher i {
     padding: 11px 0;
   }
-  .leanote-plugin #searchNote {
+  .yingnote-plugin #searchNote {
     padding-top: 1px;
   }
-  .leanote-plugin #newNoteWrap {
+  .yingnote-plugin #newNoteWrap {
     line-height: 22px;
   }
-  .leanote-plugin #leanoteMsg {
+  .yingnote-plugin #leanoteMsg {
     margin-top: 0;
   }
-  .leanote-plugin *,
-  .leanote-plugin .ztree li a.level0 span,
-  .leanote-plugin .ztree li a.level1 span,
-  .leanote-plugin #noteItemList .item-setting,
-  .leanote-plugin #noteItemList .item-blog {
+  .yingnote-plugin *,
+  .yingnote-plugin .ztree li a.level0 span,
+  .yingnote-plugin .ztree li a.level1 span,
+  .yingnote-plugin #noteItemList .item-setting,
+  .yingnote-plugin #noteItemList .item-blog {
     font-size: 14px;
   }
-  .leanote-plugin .leanoteNav h1 {
+  .yingnote-plugin .leanoteNav h1 {
     font-size: 16px;
   }
-  .leanote-plugin h1 {
+  .yingnote-plugin h1 {
     font-size: 24px;
   }
-  .leanote-plugin h2 {
+  .yingnote-plugin h2 {
     font-size: 20px;
   }
-  .leanote-plugin h3 {
+  .yingnote-plugin h3 {
     font-size: 18px;
   }
-  .leanote-plugin h4 {
+  .yingnote-plugin h4 {
     font-size: 16px;
   }
-  .leanote-plugin #noteItemList .item-setting,
-  .leanote-plugin #noteItemList .item-blog {
+  .yingnote-plugin #noteItemList .item-setting,
+  .yingnote-plugin #noteItemList .item-blog {
     width: 23px;
     padding: 1px;
   }
-  .leanote-plugin #noteItemList .item {
+  .yingnote-plugin #noteItemList .item {
     height: 69px;
   }
-  .leanote-plugin #noteItemList .item-thumb {
+  .yingnote-plugin #noteItemList .item-thumb {
     width: 60px;
     height: 60px;
     margin-top: 0px;
   }
-  .leanote-plugin #preview-contents {
+  .yingnote-plugin #preview-contents {
     padding-left: 0;
   }
-  .leanote-plugin #msg {
+  .yingnote-plugin #msg {
     font-size: 12px;
   }
-  .leanote-plugin #noteInfo {
+  .yingnote-plugin #noteInfo {
     width: 265px;
   }
-  .leanote-plugin #noteInfo table th {
+  .yingnote-plugin #noteInfo table th {
     min-width: 72px;
   }
-  .leanote-plugin #noteInfo .post-url-wrap span {
+  .yingnote-plugin #noteInfo .post-url-wrap span {
     word-break: break-all;
   }
   .extension-preview-buttons {

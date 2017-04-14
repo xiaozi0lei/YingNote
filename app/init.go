@@ -369,43 +369,7 @@ func init() {
 		}
 		return template.HTML("<li class='" + preClass + "'><a href='" + preUrl + "'>Previous</a></li> <li  class='" + nextClass + "'><a href='" + nextUrl + "'>Next</a></li>")
 	}
-	// life
-	// https://groups.google.com/forum/#!topic/golang-nuts/OEdSDgEC7js
-	// http://play.golang.org/p/snygrVpQva
-	// http://grokbase.com/t/gg/golang-nuts/142a6dhfh3/go-nuts-text-template-using-comparison-operators-eq-gt-etc-on-non-existent-variable-causes-the-template-to-stop-outputting-but-with-no-error-correct-behaviour
-	/*
-		revel.TemplateFuncs["gt"] = func(a1, a2 interface{}) bool {
-			switch a1.(type) {
-			case string:
-				switch a2.(type) {
-				case string:
-					return reflect.ValueOf(a1).String() > reflect.ValueOf(a2).String()
-				}
-			case int, int8, int16, int32, int64:
-				switch a2.(type) {
-				case int, int8, int16, int32, int64:
-					return reflect.ValueOf(a1).Int() > reflect.ValueOf(a2).Int()
-				}
-			case uint, uint8, uint16, uint32, uint64:
-				switch a2.(type) {
-				case uint, uint8, uint16, uint32, uint64:
-					return reflect.ValueOf(a1).Uint() > reflect.ValueOf(a2).Uint()
-				}
-			case float32, float64:
-				switch a2.(type) {
-				case float32, float64:
-					return reflect.ValueOf(a1).Float() > reflect.ValueOf(a2).Float()
-				}
-			}
-			return false
-		}
-	*/
 
-	/*
-			{{range $i := N 1 10}}
-		        <div>{{$i}}</div>
-		    {{end}}
-	*/
 	revel.TemplateFuncs["N"] = func(start, end int) (stream chan int) {
 		stream = make(chan int)
 		go func() {
